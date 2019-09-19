@@ -29,7 +29,7 @@ public class TileLayout extends ViewGroup implements QSTileLayout {
     protected int mCellMarginVertical;
     protected int mSidePadding;
     protected int mRows = 1;
-    protected int mDefaultColumns;
+    protected int defaultColumns;
     protected boolean mShowTitles = true;
 
     protected final ArrayList<TileRecord> mRecords = new ArrayList<>();

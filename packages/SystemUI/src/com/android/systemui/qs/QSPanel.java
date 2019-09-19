@@ -146,6 +146,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
 
         mQsTileRevealController = new QSTileRevealController(mContext, this,
                 (PagedTileLayout) mTileLayout);
+        updateSettings();
 
         mFooter = new QSSecurityFooter(this, context);
 
@@ -751,26 +752,17 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     }
 
     public interface QSTileLayout {
-
         default void saveInstanceState(Bundle outState) {}
-
         default void restoreInstanceState(Bundle savedInstanceState) {}
-
         void addTile(TileRecord tile);
-
         void removeTile(TileRecord tile);
-
         int getOffsetTop(TileRecord tile);
-
         boolean updateResources();
         void updateSettings();
         int getNumColumns();
         boolean isShowTitles();
-
         void setListening(boolean listening);
-
         default void setExpansion(float expansion) {}
-
         int getNumVisibleTiles();
     }
 
@@ -856,7 +848,6 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     public void updateSettings() {
         if (mTileLayout != null) {
             mTileLayout.updateSettings();
-
             for (TileRecord r : mRecords) {
                 configureTile(r.tile, r.tileView);
             }

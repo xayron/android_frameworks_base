@@ -524,7 +524,6 @@ public class PagedTileLayout extends ViewPager implements QSTileLayout {
     public void updateSettings() {
         for (int i = 0; i < mPages.size(); i++) {
             mPages.get(i).updateSettings();
-            mPages.get(i).updateResources();
         }
         distributeTiles();
     }

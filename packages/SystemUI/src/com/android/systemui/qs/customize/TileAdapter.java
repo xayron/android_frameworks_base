@@ -521,9 +521,13 @@ public class TileAdapter extends RecyclerView.Adapter<Holder> implements TileSta
         }
     }
 
-    private class OmniSpanSizeLookup extends SpanSizeLookup {
+//     private class OmniSpanSizeLookup extends SpanSizeLookup {
+//         private int mColumns = 3;
+//         private int mRows = 2;
+    
+    private class QsSpanSizeLookup extends SpanSizeLookup {
         private int mColumns = 3;
-        private int mRows = 2;
+
         @Override
         public int getSpanSize(int position) {
             final int type = getItemViewType(position);
@@ -536,7 +540,9 @@ public class TileAdapter extends RecyclerView.Adapter<Holder> implements TileSta
             mRows = rows;
         }
     }
-    private final OmniSpanSizeLookup mSizeLookup = new OmniSpanSizeLookup();
+//     private final OmniSpanSizeLookup mSizeLookup = new OmniSpanSizeLookup();
+//     }
+    private final QsSpanSizeLookup mSizeLookup = new QsSpanSizeLookup();
 
     private class TileItemDecoration extends ItemDecoration {
         private final Drawable mDrawable;

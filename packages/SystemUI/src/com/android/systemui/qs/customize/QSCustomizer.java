@@ -102,7 +102,6 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
     private Menu mRowsSubMenu;
     private Menu mRowsLandscapeSubMenu;
 
-
     @Inject
     public QSCustomizer(Context context, AttributeSet attrs,
             LightBarController lightBarController,
@@ -151,7 +150,8 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
                 UserHandle.USER_CURRENT);
         MenuItem qsTitlesMenuItem = mToolbar.getMenu().findItem(R.id.menu_item_titles);
         qsTitlesMenuItem.setChecked(qsTitlesValue == 1);
-
+        updateColumnsMenu();
+        
         int accentColor = Utils.getColorAccentDefaultColor(context);
         mToolbar.setTitleTextColor(accentColor);
         mToolbar.getNavigationIcon().setTint(accentColor);
@@ -275,8 +275,6 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
             if (mColumnsLandscapeSubMenu != null) {
                 mColumnsLandscapeSubMenu.close();
             }
-            if (mQsColumnsSubMenu != null) {
-                mQsColumnsSubMenu.close();
             if (mRowsSubMenu != null) {
                 mRowsSubMenu.close();
             }
@@ -318,56 +316,56 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
         if (id == R.id.menu_item_reset) {
             MetricsLogger.action(getContext(), MetricsProto.MetricsEvent.ACTION_QS_EDIT_RESET);
             reset();
-        } else if (id == R.id.menu_item_columns_three) {
-            Settings.System.putIntForUser(mContext.getContentResolver(),
-                    Settings.System.OMNI_QS_LAYOUT_COLUMNS, 3, UserHandle.USER_CURRENT);
-        } else if (id == R.id.menu_item_columns_four) {
-            Settings.System.putIntForUser(mContext.getContentResolver(),
-                    Settings.System.OMNI_QS_LAYOUT_COLUMNS, 4, UserHandle.USER_CURRENT);
-        } else if (id == R.id.menu_item_columns_five) {
-            Settings.System.putIntForUser(mContext.getContentResolver(),
-                    Settings.System.OMNI_QS_LAYOUT_COLUMNS, 5, UserHandle.USER_CURRENT);
-        } else if (id == R.id.menu_item_columns_six) {
-            Settings.System.putIntForUser(mContext.getContentResolver(),
-                    Settings.System.OMNI_QS_LAYOUT_COLUMNS, 6, UserHandle.USER_CURRENT);
-        } else if (id == R.id.menu_item_columns_seven) {
-            Settings.System.putIntForUser(mContext.getContentResolver(),
-                    Settings.System.OMNI_QS_LAYOUT_COLUMNS, 7, UserHandle.USER_CURRENT);
-        } else if (id == R.id.menu_item_columns_eight) {
-            Settings.System.putIntForUser(mContext.getContentResolver(),
-                    Settings.System.OMNI_QS_LAYOUT_COLUMNS, 8, UserHandle.USER_CURRENT);
-        } else if (id == R.id.menu_item_columns_landscape_four) {
-            Settings.System.putIntForUser(mContext.getContentResolver(),
-                    Settings.System.OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE, 4, UserHandle.USER_CURRENT);
-        } else if (id == R.id.menu_item_columns_landscape_five) {
-            Settings.System.putIntForUser(mContext.getContentResolver(),
-                    Settings.System.OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE, 5, UserHandle.USER_CURRENT);
-        } else if (id == R.id.menu_item_columns_landscape_six) {
-            Settings.System.putIntForUser(mContext.getContentResolver(),
-                    Settings.System.OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE, 6, UserHandle.USER_CURRENT);
-        } else if (id == R.id.menu_item_columns_landscape_seven) {
-            Settings.System.putIntForUser(mContext.getContentResolver(),
-                    Settings.System.OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE, 7, UserHandle.USER_CURRENT);
-        } else if (id ==  R.id.menu_item_columns_landscape_eight) {
-            Settings.System.putIntForUser(mContext.getContentResolver(),
-                    Settings.System.OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE, 8, UserHandle.USER_CURRENT);
-        } else if (id == R.id.menu_item_titles) {
-            item.setChecked(!item.isChecked());
-            Settings.System.putIntForUser(mContext.getContentResolver(),
-                   Settings.System.OMNI_QS_TILE_TITLE_VISIBILITY, item.isChecked() ? 1 : 0,
-                   UserHandle.USER_CURRENT);
-        } else if (id ==  R.id.menu_item_qs_columns_six) {
-            Settings.System.putIntForUser(mContext.getContentResolver(),
-                    Settings.System.OMNI_QS_QUICKBAR_COLUMNS, 6, UserHandle.USER_CURRENT);
-        } else if (id ==  R.id.menu_item_qs_columns_seven) {
-            Settings.System.putIntForUser(mContext.getContentResolver(),
-                    Settings.System.OMNI_QS_QUICKBAR_COLUMNS, 7, UserHandle.USER_CURRENT);
-        } else if (id ==  R.id.menu_item_qs_columns_eight) {
-            Settings.System.putIntForUser(mContext.getContentResolver(),
-                    Settings.System.OMNI_QS_QUICKBAR_COLUMNS, 8, UserHandle.USER_CURRENT);
-        } else if (id ==  R.id.menu_item_qs_columns_auto) {
-            Settings.System.putIntForUser(mContext.getContentResolver(),
-                    Settings.System.OMNI_QS_QUICKBAR_COLUMNS, -1, UserHandle.USER_CURRENT);
+//         } else if (id == R.id.menu_item_columns_three) {
+//             Settings.System.putIntForUser(mContext.getContentResolver(),
+//                     Settings.System.OMNI_QS_LAYOUT_COLUMNS, 3, UserHandle.USER_CURRENT);
+//         } else if (id == R.id.menu_item_columns_four) {
+//             Settings.System.putIntForUser(mContext.getContentResolver(),
+//                     Settings.System.OMNI_QS_LAYOUT_COLUMNS, 4, UserHandle.USER_CURRENT);
+//         } else if (id == R.id.menu_item_columns_five) {
+//             Settings.System.putIntForUser(mContext.getContentResolver(),
+//                     Settings.System.OMNI_QS_LAYOUT_COLUMNS, 5, UserHandle.USER_CURRENT);
+//         } else if (id == R.id.menu_item_columns_six) {
+//             Settings.System.putIntForUser(mContext.getContentResolver(),
+//                     Settings.System.OMNI_QS_LAYOUT_COLUMNS, 6, UserHandle.USER_CURRENT);
+//         } else if (id == R.id.menu_item_columns_seven) {
+//             Settings.System.putIntForUser(mContext.getContentResolver(),
+//                     Settings.System.OMNI_QS_LAYOUT_COLUMNS, 7, UserHandle.USER_CURRENT);
+//         } else if (id == R.id.menu_item_columns_eight) {
+//             Settings.System.putIntForUser(mContext.getContentResolver(),
+//                     Settings.System.OMNI_QS_LAYOUT_COLUMNS, 8, UserHandle.USER_CURRENT);
+//         } else if (id == R.id.menu_item_columns_landscape_four) {
+//             Settings.System.putIntForUser(mContext.getContentResolver(),
+//                     Settings.System.OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE, 4, UserHandle.USER_CURRENT);
+//         } else if (id == R.id.menu_item_columns_landscape_five) {
+//             Settings.System.putIntForUser(mContext.getContentResolver(),
+//                     Settings.System.OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE, 5, UserHandle.USER_CURRENT);
+//         } else if (id == R.id.menu_item_columns_landscape_six) {
+//             Settings.System.putIntForUser(mContext.getContentResolver(),
+//                     Settings.System.OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE, 6, UserHandle.USER_CURRENT);
+//         } else if (id == R.id.menu_item_columns_landscape_seven) {
+//             Settings.System.putIntForUser(mContext.getContentResolver(),
+//                     Settings.System.OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE, 7, UserHandle.USER_CURRENT);
+//         } else if (id ==  R.id.menu_item_columns_landscape_eight) {
+//             Settings.System.putIntForUser(mContext.getContentResolver(),
+//                     Settings.System.OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE, 8, UserHandle.USER_CURRENT);
+//         } else if (id == R.id.menu_item_titles) {
+//             item.setChecked(!item.isChecked());
+//             Settings.System.putIntForUser(mContext.getContentResolver(),
+//                    Settings.System.OMNI_QS_TILE_TITLE_VISIBILITY, item.isChecked() ? 1 : 0,
+//                    UserHandle.USER_CURRENT);
+//         } else if (id ==  R.id.menu_item_qs_columns_six) {
+//             Settings.System.putIntForUser(mContext.getContentResolver(),
+//                     Settings.System.OMNI_QS_QUICKBAR_COLUMNS, 6, UserHandle.USER_CURRENT);
+//         } else if (id ==  R.id.menu_item_qs_columns_seven) {
+//             Settings.System.putIntForUser(mContext.getContentResolver(),
+//                     Settings.System.OMNI_QS_QUICKBAR_COLUMNS, 7, UserHandle.USER_CURRENT);
+//         } else if (id ==  R.id.menu_item_qs_columns_eight) {
+//             Settings.System.putIntForUser(mContext.getContentResolver(),
+//                     Settings.System.OMNI_QS_QUICKBAR_COLUMNS, 8, UserHandle.USER_CURRENT);
+//         } else if (id ==  R.id.menu_item_qs_columns_auto) {
+//             Settings.System.putIntForUser(mContext.getContentResolver(),
+//                     Settings.System.OMNI_QS_QUICKBAR_COLUMNS, -1, UserHandle.USER_CURRENT);
         } else if (id == R.id.menu_item_rows_one) {
             Settings.System.putIntForUser(mContext.getContentResolver(),
                     Settings.System.QS_LAYOUT_ROWS, 1, UserHandle.USER_CURRENT);
@@ -386,7 +384,45 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
         } else if (id == R.id.menu_item_rows_landscape_two) {
             Settings.System.putIntForUser(mContext.getContentResolver(),
                     Settings.System.QS_LAYOUT_ROWS_LANDSCAPE, 2, UserHandle.USER_CURRENT);
-
+        } else if (id == R.id.menu_item_columns_three) {
+            Settings.System.putIntForUser(mContext.getContentResolver(),
+                    Settings.System.QS_LAYOUT_COLUMNS, 3, UserHandle.USER_CURRENT);
+        } else if (id == R.id.menu_item_columns_four) {
+            Settings.System.putIntForUser(mContext.getContentResolver(),
+                    Settings.System.QS_LAYOUT_COLUMNS, 4, UserHandle.USER_CURRENT);
+        } else if (id == R.id.menu_item_columns_five) {
+            Settings.System.putIntForUser(mContext.getContentResolver(),
+                    Settings.System.QS_LAYOUT_COLUMNS, 5, UserHandle.USER_CURRENT);
+        } else if (id == R.id.menu_item_columns_six) {
+            Settings.System.putIntForUser(mContext.getContentResolver(),
+                    Settings.System.QS_LAYOUT_COLUMNS, 6, UserHandle.USER_CURRENT);
+        } else if (id == R.id.menu_item_columns_seven) {
+            Settings.System.putIntForUser(mContext.getContentResolver(),
+                    Settings.System.QS_LAYOUT_COLUMNS, 7, UserHandle.USER_CURRENT);
+        } else if (id == R.id.menu_item_columns_eight) {
+            Settings.System.putIntForUser(mContext.getContentResolver(),
+                    Settings.System.QS_LAYOUT_COLUMNS, 8, UserHandle.USER_CURRENT);
+        } else if (id == R.id.menu_item_columns_landscape_four) {
+            Settings.System.putIntForUser(mContext.getContentResolver(),
+                    Settings.System.QS_LAYOUT_COLUMNS_LANDSCAPE, 4, UserHandle.USER_CURRENT);
+        } else if (id == R.id.menu_item_columns_landscape_five) {
+            Settings.System.putIntForUser(mContext.getContentResolver(),
+                    Settings.System.QS_LAYOUT_COLUMNS_LANDSCAPE, 5, UserHandle.USER_CURRENT);
+        } else if (id == R.id.menu_item_columns_landscape_six) {
+            Settings.System.putIntForUser(mContext.getContentResolver(),
+                    Settings.System.QS_LAYOUT_COLUMNS_LANDSCAPE, 6, UserHandle.USER_CURRENT);
+        } else if (id == R.id.menu_item_columns_landscape_seven) {
+            Settings.System.putIntForUser(mContext.getContentResolver(),
+                    Settings.System.QS_LAYOUT_COLUMNS_LANDSCAPE, 7, UserHandle.USER_CURRENT);
+        } else if (id ==  R.id.menu_item_columns_landscape_eight) {
+            Settings.System.putIntForUser(mContext.getContentResolver(),
+                    Settings.System.QS_LAYOUT_COLUMNS_LANDSCAPE, 8, UserHandle.USER_CURRENT);
+        } else if (id == R.id.menu_item_titles) {
+            item.setChecked(!item.isChecked());
+            Settings.System.putIntForUser(mContext.getContentResolver(),
+                   Settings.System.QS_TILE_TITLE_VISIBILITY, item.isChecked() ? 1 : 0,
+                   UserHandle.USER_CURRENT);
+        }
         updateSettings();
         return false;
     }
@@ -398,6 +434,13 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
             tiles.add(tile);
         }
         mTileAdapter.resetTileSpecs(mHost, tiles);
+        Settings.System.putIntForUser(mContext.getContentResolver(),
+                Settings.System.QS_LAYOUT_COLUMNS, mDefaultColumns,
+                UserHandle.USER_CURRENT);
+        Settings.System.putIntForUser(mContext.getContentResolver(),
+                Settings.System.QS_LAYOUT_COLUMNS_LANDSCAPE, mDefaultColumns,
+                UserHandle.USER_CURRENT);
+        updateSettings();
     }
 
     private void setTileSpecs() {
@@ -498,10 +541,10 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
                 == Configuration.ORIENTATION_PORTRAIT;
         int defaultColumns = Math.max(1, mContext.getResources().getInteger(R.integer.quick_settings_num_columns));
         int columns = Settings.System.getIntForUser(
-                mContext.getContentResolver(), Settings.System.OMNI_QS_LAYOUT_COLUMNS, defaultColumns,
+                mContext.getContentResolver(), Settings.System.QS_LAYOUT_COLUMNS, defaultColumns,
                 UserHandle.USER_CURRENT);
         int columnsLandscape = Settings.System.getIntForUser(
-                mContext.getContentResolver(), Settings.System.OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE, defaultColumns,
+                mContext.getContentResolver(), Settings.System.QS_LAYOUT_COLUMNS_LANDSCAPE, defaultColumns,
                 UserHandle.USER_CURRENT);
         int rows = Settings.System.getIntForUser(
                 mContext.getContentResolver(), Settings.System.QS_LAYOUT_ROWS, 3,
@@ -510,7 +553,7 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
                 mContext.getContentResolver(), Settings.System.QS_LAYOUT_ROWS_LANDSCAPE, 2,
                 UserHandle.USER_CURRENT);
         boolean showTitles = Settings.System.getIntForUser(
-                mContext.getContentResolver(), Settings.System.OMNI_QS_TILE_TITLE_VISIBILITY, 1,
+                mContext.getContentResolver(), Settings.System.QS_TILE_TITLE_VISIBILITY, 1,
                 UserHandle.USER_CURRENT) == 1;
         mTileAdapter.setColumnCount(isPortrait ? columns : columnsLandscape);
         mTileAdapter.setRowsCount(isPortrait ? rows : rowsLandscape);
@@ -521,8 +564,10 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
     }
 
     private void updateColumnsMenu(int defaultColumns) {
+//         int columns = Settings.System.getIntForUser(
+//                 mContext.getContentResolver(), Settings.System.OMNI_QS_LAYOUT_COLUMNS, defaultColumns,
         int columns = Settings.System.getIntForUser(
-                mContext.getContentResolver(), Settings.System.OMNI_QS_LAYOUT_COLUMNS, defaultColumns,
+                mContext.getContentResolver(), Settings.System.QS_LAYOUT_COLUMNS, defaultColumns,
                 UserHandle.USER_CURRENT);
         MenuItem menuItemThree = mToolbar.getMenu().findItem(R.id.menu_item_columns_three);
         menuItemThree.setChecked(columns == 3);
@@ -534,7 +579,7 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
         menuItemSix.setChecked(columns == 6);
 
          int columnsLandscape = Settings.System.getIntForUser(
-                mContext.getContentResolver(), Settings.System.OMNI_QS_LAYOUT_COLUMNS_LANDSCAPE, defaultColumns,
+                mContext.getContentResolver(), Settings.System.QS_LAYOUT_COLUMNS_LANDSCAPE, defaultColumns,
                 UserHandle.USER_CURRENT);
         menuItemThree = mToolbar.getMenu().findItem(R.id.menu_item_columns_landscape_three);
         menuItemThree.setChecked(columnsLandscape == 3);
