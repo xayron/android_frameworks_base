@@ -92,6 +92,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
     protected final Context mContext;
     protected final ArrayList<TileRecord> mRecords = new ArrayList<>();
     protected final View mBrightnessView;
+    protected final ImageView mBrightnessIconView;
     protected final ImageView mAutoBrightnessView;
     private final H mHandler = new H();
     private final MetricsLogger mMetricsLogger = Dependency.get(MetricsLogger.class);
@@ -167,6 +168,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
                 findViewById(R.id.brightness_slider));
         mDumpController = dumpController;
 
+        mBrightnessIconView = findViewById(R.id.brightness_icon_left);
         mAutoBrightnessView = findViewById(R.id.brightness_icon);
 
         mIsAutomaticBrightnessAvailable = getResources().getBoolean(
@@ -252,6 +254,7 @@ public class QSPanel extends LinearLayout implements Tunable, Callback, Brightne
         if (QS_SHOW_AUTO_BRIGHTNESS.equals(key) && mIsAutomaticBrightnessAvailable) {
             updateViewVisibilityForTuningValue(newValue);
 	    mAutoBrightnessView.setVisibility(TunerService.parseIntegerSwitch(newValue, true) ? VISIBLE : GONE);
+	    mBrightnessIconView.setVisibility(TunerService.parseIntegerSwitch(newValue, true) ? VISIBLE : GONE);
         } else if (QS_SHOW_BRIGHTNESS_SLIDER.equals(key)) {
             updateViewVisibilityForTuningValue(newValue);
         }
